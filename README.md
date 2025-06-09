@@ -15,7 +15,7 @@
 - wfdb
 
 ### Installation
-```console
+```bash
 semi-seg-ecg$ conda create -n semi_seg_ecg python=3.9
 semi-seg-ecg$ conda activate semi_seg_ecg
 semi-seg-ecg$ pip install -r requirements.txt
@@ -25,7 +25,7 @@ semi-seg-ecg$ pip install -r requirements.txt
 ### Installation
 We recommend using [`gdown`](https://github.com/wkentaro/gdown) command for the installation.
 
-```console
+```bash
 semi-seg-ecg$ gdown $FILE_ID -O $OUT_PATH
 ```
 - `$FILE_ID`: __Google Drive__ file ID, which can be extracted from the shareable links.<br>
@@ -33,7 +33,7 @@ semi-seg-ecg$ gdown $FILE_ID -O $OUT_PATH
 - `$OUT_PATH`: the desired output path or directory.
 
 - Example:
-  ```console
+  ```bash
   semi-seg-ecg$ gdown 1qPAEmilpbSfCArhfDDKl1Vrqn4j89ZWK -O data/
   semi-seg-ecg$ gdown 1vWSola1ySAt5XI8jMoG6ZPAwcFn8OAjP -O index/
   semi-seg-ecg$ unzip -q data/ludb.zip -d data/
@@ -63,7 +63,7 @@ semi-seg-ecg$ gdown $FILE_ID -O $OUT_PATH
 | *Merged*    | 1B_uCeuVS-eyUjWZ85AswGLn6wwFnfFvd | [link](https://drive.google.com/file/d/1B_uCeuVS-eyUjWZ85AswGLn6wwFnfFvd) |
 
 ## Usage
-```console
+```bash
 semi-seg-ecg$ bash scripts/train.sh --help
 Usage: bash scripts/train.sh [options]
 Options:
@@ -80,7 +80,7 @@ Options:
 Please check the YAML files in the `configs` directory. These are the configurations used for the benchmarking experiments.
 
 - Example: 
-  ```console
+  ```bash
   semi-seg-ecg$ bash scripts/train.sh \
   > -f ../configs/base/fixmatch.yaml \
   > -o ../configs/bench/ludb/1over16.yaml
