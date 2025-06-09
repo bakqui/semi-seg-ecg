@@ -1,0 +1,10 @@
+exp_name: zhejiang/1over4
+
+dataset:
+  ecg_dir: ../data/zhejiang/ecg
+  label_dir: ../data/zhejiang/label
+  index_dir: ../index/zhejiang
+  train_unlabeled_csv: Zhejiang_train_unlabeled.pkl
+  train_labeled_csv: Zhejiang_train_labeled_1over4.pkl
+  valid_csv: Zhejiang_valid.pkl
+  test_csv: Zhejiang_test.pkl

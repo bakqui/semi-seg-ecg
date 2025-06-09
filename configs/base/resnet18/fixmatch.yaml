@@ -1,0 +1,131 @@
+seed: 0
+output_dir: ../exps/resnet18/fixmatch
+exp_name: <FILL IN>
+resume: null
+start_epoch: 0
+device: cuda
+use_amp: true
+
+algorithm: fixmatch
+mode: scratch
+pretrained_backbone: null
+
+backbone:
+  resnet18:
+    num_leads: 1
+    num_stages: 4
+    out_indices: [0, 1, 2, 3]
+    dilations: [1, 1, 1, 1]
+    strides: [1, 2, 2, 2]
+    deep_stem: false
+    avg_down: false
+    contract_dilation: false
+decode_head:
+  FCNHead:
+    in_channels: 512
+    in_index: 3
+    channels: 128
+    num_convs: 1
+    concat_input: false
+    dropout_ratio: 0.1
+    num_classes: 4
+    align_corners: false
+
+dataset:
+  ecg_dir: <FILL IN>
+  label_dir: <FILL IN>
+  index_dir: <FILL IN>
+  train_unlabeled_csv: <FILL IN>
+  train_labeled_csv: <FILL IN>
+  valid_csv: <FILL IN>
+  test_csv: <FILL IN>
+
+  filename_col: waveform
+  label_filename_col: label
+
+  signal_length: 2500
+
+  filter:
+  - highpass_filter:
+      fs: 250
+      cutoff: 0.67
+  - lowpass_filter:
+      fs: 250
+      cutoff: 40
+
+  augmentations:  # weak augmentations
+  - random_resize_crop:
+      target_length: 2500
+      scale_min: 0.5
+      scale_max: 2.0
+
+  strong_augmentations:
+  - RandAugment:
+      ops:
+      - AmplitudeScaling:
+          sigma: 0.5
+      - AdaptivePowerlineNoise:
+          fs: 250
+      - RandomPartialWhiteNoise:
+          amplitude: 1
+          ratio: 0.5
+      - RandomPartialSineNoise:
+          amplitude: 1
+          ratio: 0.5
+      level: 10
+      num_layers: 3
+      prob: 0.5
+
+  transforms:
+  - standardize:
+      axis: [-1, -2]
+  - to_tensor:
+      dtype: float
+
+dataloader:
+  batch_size: 16
+  num_workers: 2
+  pin_memory: false
+
+train:
+  epochs: 100
+  accum_iter: 1
+  warmup_epochs: 10
+  min_lr: 0.0001
+  blr: null
+  lr: 0.001
+  weight_decay: 0.05
+  max_norm: null
+  layer_decay: null
+  optimizer: adamw
+  optimizer_kwargs:
+    betas:
+    - 0.9
+    - 0.999
+  auxiliary_loss_weight:
+  - 0.4
+
+  conf_thresh: 0.80
+
+metric:
+  task: segmentation
+  compute_on_cpu: true
+  sync_on_compute: false
+  num_classes: 4
+  include_background: true
+  per_class: false
+  input_format: one-hot
+  target_metrics:
+  - MeanIoU
+
+test:
+  target_metric: MeanIoU
+
+ddp:
+  world_size: 1
+  rank: -1
+  gpu: 0
+  dist_url: env://
+  dist_backend: nccl
+  distributed: false
+  sync_bn: true

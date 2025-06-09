@@ -1,0 +1,10 @@
+exp_name: cross_domain/merged
+
+dataset:
+  ecg_dir: ../data
+  label_dir: ../data
+  index_dir: ../index/cross_domain
+  train_unlabeled_csv: merged_unlabeled.pkl
+  train_labeled_csv: merged_train_labeled.pkl
+  valid_csv: merged_valid.pkl
+  test_csv: merged_test.pkl
