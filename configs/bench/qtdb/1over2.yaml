@@ -1,0 +1,10 @@
+exp_name: qtdb/1over2
+
+dataset:
+  ecg_dir: ../data/qtdb/ecg
+  label_dir: ../data/qtdb/label
+  index_dir: ../index/qtdb
+  train_unlabeled_csv: QTDB_train_unlabeled.pkl
+  train_labeled_csv: QTDB_train_labeled_1over2.pkl
+  valid_csv: QTDB_valid.pkl
+  test_csv: QTDB_test.pkl
