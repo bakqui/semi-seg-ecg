@@ -62,6 +62,8 @@ semi-seg-ecg$ gdown $FILE_ID -O $OUT_PATH
 | **Cross-domain setting** |||
 | *Merged*    | 1B_uCeuVS-eyUjWZ85AswGLn6wwFnfFvd | [link](https://drive.google.com/file/d/1B_uCeuVS-eyUjWZ85AswGLn6wwFnfFvd) |
 
+**Note**: For detailed data preprocessing and generation of dataset split indices (i.e., train/validation/test), please refer to the code repository [here](https://github.com/jeonghwaimnida/Delineation_dataset).
+
 ## Usage
 ```bash
 semi-seg-ecg$ bash scripts/train.sh --help
@@ -79,7 +81,7 @@ Options:
 ```
 Please check the YAML files in the `configs` directory. These are the configurations used for the benchmarking experiments.
 
-- Example: 
+- Example:
   ```bash
   semi-seg-ecg$ bash scripts/train.sh \
   > -f ../configs/base/fixmatch.yaml \
