@@ -4,7 +4,7 @@ dataset:
   ecg_dir: ../data/ludb/ecg
   label_dir: ../data/ludb/label
   index_dir: ../index/ludb
-  train_unlabeled_csv: LUDB_train_unlabeled.pkl
-  train_labeled_csv: LUDB_train_labeled_1over8.pkl
-  valid_csv: LUDB_valid.pkl
-  test_csv: LUDB_test.pkl
+  train_unlabeled_csv: LUDB_train_unlabeled.csv
+  train_labeled_csv: LUDB_train_labeled_1over8.csv
+  valid_csv: LUDB_valid.csv
+  test_csv: LUDB_test.csv

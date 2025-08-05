@@ -4,7 +4,7 @@ dataset:
   ecg_dir: ../data
   label_dir: ../data
   index_dir: ../index/cross_domain
-  train_unlabeled_csv: merged_unlabeled.pkl
-  train_labeled_csv: merged_train_labeled.pkl
-  valid_csv: merged_valid.pkl
-  test_csv: merged_test.pkl
+  train_unlabeled_csv: merged_unlabeled.csv
+  train_labeled_csv: merged_train_labeled.csv
+  valid_csv: merged_valid.csv
+  test_csv: merged_test.csv

@@ -4,7 +4,7 @@ dataset:
   ecg_dir: ../data/isp/ecg
   label_dir: ../data/isp/label
   index_dir: ../index/isp
-  train_unlabeled_csv: ISP_train_unlabeled.pkl
-  train_labeled_csv: ISP_train_labeled_1over2.pkl
-  valid_csv: ISP_valid.pkl
-  test_csv: ISP_test.pkl
+  train_unlabeled_csv: ISP_train_unlabeled.csv
+  train_labeled_csv: ISP_train_labeled_1over2.csv
+  valid_csv: ISP_valid.csv
+  test_csv: ISP_test.csv
