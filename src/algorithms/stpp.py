@@ -1,3 +1,5 @@
+# Copyright (c) VUNO Inc. All rights reserved.
+
 import datetime
 import json
 import math

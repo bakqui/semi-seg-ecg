@@ -1,3 +1,5 @@
+# Copyright (c) VUNO Inc. All rights reserved.
+
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import numpy as np

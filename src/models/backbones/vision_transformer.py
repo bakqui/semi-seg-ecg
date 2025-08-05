@@ -1,3 +1,5 @@
+# Copyright (c) VUNO Inc. All rights reserved.
+
 from typing import Optional, Sequence
 
 import torch

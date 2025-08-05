@@ -1,3 +1,5 @@
+# Copyright (c) VUNO Inc. All rights reserved.
+
 from typing import Dict, List
 
 import torch

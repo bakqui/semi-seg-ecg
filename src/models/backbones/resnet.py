@@ -1,3 +1,5 @@
+# Copyright (c) VUNO Inc. All rights reserved.
+
 import math
 from typing import Callable, Optional, Sequence, Type, Union
 
