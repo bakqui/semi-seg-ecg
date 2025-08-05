@@ -1,4 +1,4 @@
-# semi-seg-ecg
+# SemiSegECG: A Multi-Dataset Benchmark for Semi-Supervised Semantic Segmentation in ECG Delineation
 ## Environments
 ### Requirements
 - python 3.9
@@ -87,3 +87,21 @@ Please check the YAML files in the `configs` directory. These are the configurat
   > -f ../configs/base/fixmatch.yaml \
   > -o ../configs/bench/ludb/1over16.yaml
   ```
+
+## License
+© VUNO Inc. All rights reserved.
+ 
+This repository contains code developed at VUNO Inc. by its employees as part of their official duties.
+Do not distribute, modify, or use this code outside the scope permitted by the license without explicit permission from VUNO.
+
+## Citation
+
+If you find this work or code is helpful in your research, please cite:
+```
+@article{park2025multi,
+  title={SemiSegECG: A Multi-Dataset Benchmark for Semi-Supervised Semantic Segmentation in ECG Delineation},
+  author={Park, Minje and Lim, Jeonghwa and Yu, Taehyung and Joo, Sunghoon},
+  journal={arXiv preprint arXiv:2507.18323},
+  year={2025}
+}
+```
