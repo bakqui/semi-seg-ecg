@@ -83,22 +83,23 @@ def train_one_epoch(
         ecg_u_w = unlabeled['ecg'].to(device, non_blocking=True)
         ecg_u_s = unlabeled['ecg_aug'].to(device, non_blocking=True)
 
+        # pseudo-label generation
+        with torch.no_grad():
+            model.eval()
+            pred_u_w = model(ecg_u_w, return_loss=False)['seg_logits']
+            conf_u_w = pred_u_w.softmax(dim=1).max(dim=1)[0]
+            mask_u_w = pred_u_w.argmax(dim=1)
+
         model.train()
 
         num_lb, num_ulb = ecg_x.size(0), ecg_u_w.size(0)
 
         with torch.cuda.amp.autocast(enabled=use_amp):
             outputs = model(
-                torch.cat((ecg_x, ecg_u_w)),
+                torch.cat((ecg_x, ecg_u_s)),
                 return_loss=False,
             )
-            pred_x, pred_u_w = outputs['seg_logits'].split([num_lb, num_ulb])
-            pred_u_s = model(ecg_u_s, return_loss=False)['seg_logits']
-
-            # pseudo-label generation
-            pred_u_w = pred_u_w.detach()
-            conf_u_w = pred_u_w.softmax(dim=1).max(dim=1)[0]
-            mask_u_w = pred_u_w.argmax(dim=1)
+            pred_x, pred_u_s = outputs['seg_logits'].split([num_lb, num_ulb])
 
             # supervised loss
             loss_x = F.cross_entropy(pred_x, mask_x)

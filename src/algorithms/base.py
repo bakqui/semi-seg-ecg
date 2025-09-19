@@ -61,6 +61,7 @@ def init_model_from_cfg(config, train=True):
         auxiliary_heads = None
         auxiliary_head_losses = None
 
+    # Optional latent projection layer (ReCo)
     use_latent_projection = config.get('use_latent_projection', False)
     projection_in_dim = config.get('projection_in_dim', None)
     projection_out_dim = config.get('projection_out_dim', None)

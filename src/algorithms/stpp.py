@@ -147,6 +147,11 @@ def train_one_epoch(
 
         ecg_u_w = unlabeled['ecg'].to(device, non_blocking=True)
 
+        # pseudo-label generation
+        with torch.no_grad():
+            pred_u_w = model_teacher(ecg_u_w, return_loss=False)['seg_logits']
+            mask_u_w = torch.argmax(pred_u_w, dim=1)
+
         model_student.train()
 
         num_lb, num_ulb = ecg_x.size(0), ecg_u_w.size(0)
@@ -157,11 +162,6 @@ def train_one_epoch(
                 return_loss=False,
             )
             pred_x, pred_u_w = outputs['seg_logits'].split([num_lb, num_ulb])
-
-            # pseudo-label generation
-            with torch.no_grad():
-                pred_u_w_teacher = model_teacher(ecg_u_w, return_loss=False)['seg_logits']
-            mask_u_w = torch.argmax(pred_u_w_teacher, dim=1)
 
             # supervised loss
             loss_x = F.cross_entropy(pred_x, mask_x)

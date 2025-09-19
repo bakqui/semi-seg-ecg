@@ -26,6 +26,7 @@ from utils.perf_metrics import build_metric_fn, is_best_metric
 from utils.semi_dataset import build_seg_dataset, get_dataloader
 
 
+# Reference: https://github.com/lorenmt/reco/blob/main/module_list.py#L143-L150
 def negative_index_sampler(samp_num, seg_num_list):
     negative_index = []
     for i in range(samp_num.shape[0]):  # num_queries
@@ -38,6 +39,7 @@ def negative_index_sampler(samp_num, seg_num_list):
     return negative_index
 
 
+# Reference: https://github.com/lorenmt/reco/blob/main/module_list.py#L65-L140
 def compute_reco_loss(
     latent: torch.Tensor,
     prob_teacher: torch.Tensor,
@@ -213,6 +215,12 @@ def train_one_epoch(
         ecg_u_w = unlabeled['ecg'].to(device, non_blocking=True)
         ecg_u_s = unlabeled['ecg_aug'].to(device, non_blocking=True)
 
+        # pseudo-label generation
+        with torch.no_grad():
+            pred_u_w = model_teacher(ecg_u_w, return_loss=False)['seg_logits']
+            prob_u_w = pred_u_w.softmax(dim=1)
+            conf_u_w = prob_u_w.max(dim=1)[0]
+
         model_student.train()
 
         num_lb, num_ulb = ecg_x.size(0), ecg_u_w.size(0)
@@ -226,32 +234,14 @@ def train_one_epoch(
             latent_u_s = outputs['latent'].split([num_lb, num_ulb])[1]
             pred_x, pred_u_s = outputs['seg_logits'].split([num_lb, num_ulb])
 
-            # pseudo-label generation
-            with torch.no_grad():
-                pred_u_w = model_teacher(
-                    ecg_u_w,
-                    return_loss=False,
-                )['seg_logits']
-            prob_u_w = pred_u_w.softmax(dim=1)
-            conf_u_w = prob_u_w.max(dim=1)[0]
-
             # supervised loss loss
             loss_x = F.cross_entropy(pred_x, mask_x)
             if 'aux_seg_logits' in outputs:
                 pred_aux_list = outputs['aux_seg_logits']
-                aux_loss_weights = config.get(
-                    'aux_loss_weights',
-                    [0.4] * len(pred_aux_list),
-                )
-                for pred_aux, aux_loss_weight in zip(
-                    pred_aux_list,
-                    aux_loss_weights,
-                ):
+                aux_loss_weights = config.get('aux_loss_weights', [0.4] * len(pred_aux_list))
+                for pred_aux, aux_loss_weight in zip(pred_aux_list, aux_loss_weights):
                     pred_x_aux, _ = pred_aux.split([num_lb, num_ulb])
-                    loss_x += aux_loss_weight * F.cross_entropy(
-                        pred_x_aux,
-                        mask_x,
-                    )
+                    loss_x += aux_loss_weight * F.cross_entropy(pred_x_aux, mask_x)
 
             # consistency regularization loss
             # Confidence filtering was used in original reco implementation
