@@ -93,9 +93,9 @@ def train_one_epoch(
         num_lb, num_ulb = ecg_x.size(0), ecg_u_w.size(0)
 
         # pseudo-label generation
-        model_1.eval()
-        model_2.eval()
         with torch.no_grad():
+            model_1.eval()
+            model_2.eval()
             pred_u_w_1 = model_1(ecg_u_w, return_loss=False)['seg_logits']
             mask_u_w_1 = pred_u_w_1.argmax(dim=1)
             pred_u_w_2 = model_2(ecg_u_w, return_loss=False)['seg_logits']
